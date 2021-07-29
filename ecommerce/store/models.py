@@ -16,7 +16,7 @@ class Customer(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=200, unique=True)
     description = models.TextField(max_length=255, null=True, blank=False)
-    image = models.ImageField(upload_to='images/categories', blank=True)
+    image = models.ImageField(upload_to='categories', blank=True)
     digital = models.BooleanField(default=False, null=True, blank=False)
     #date_created = models.DateTimeField(auto_now_add=True,blank=True, default=datetime.now)
     #date_modified = models.DateTimeField(auto_now=True)
@@ -32,7 +32,7 @@ class Product(models.Model):
     name = models.CharField(max_length=200, unique=True, null=True)
     description = models.TextField(max_length=500, null=True, blank=False)
     price = models.FloatField()
-    images = models.ImageField(upload_to='images/products', blank=True)
+    images = models.ImageField(upload_to='products', blank=True)
     stock = models.IntegerField(null=True, blank=False)
     is_available = models.BooleanField(default=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
@@ -42,6 +42,14 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def imageURL(self):
+        try:
+            url = self.images.url
+        except:
+            url = ''
+        return url
     
 
 class Order(models.Model):
@@ -75,4 +83,5 @@ class ShippingAddress(models.Model):
 
     def __str__(self):
         return str(self.address)
+
     
