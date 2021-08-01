@@ -102,7 +102,7 @@ class ShippingAddress(models.Model):
     address = models.CharField(max_length=200, null=True)
     city = models.CharField(max_length=200, null=True)
     state = models.CharField(max_length=200, null=True)
-    Country = models.CharField(max_length=200, null=True, default="India")
+    country = models.CharField(max_length=200, null=True, default="India")
     pincode = models.CharField(max_length=200, null=True)
     #date_added = models.DateTimeField(auto_now_add=True,blank=True, default=datetime.now)
     #date_modified = models.DateTimeField(auto_now_add=True)
