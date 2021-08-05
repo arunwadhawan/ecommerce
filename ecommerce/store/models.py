@@ -1,5 +1,12 @@
+from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User - Not reqd as custom user model beng used
+from django.db.models.signals import pre_save
+from .utils import unique_slug_generator
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 # Create your models here.
 
@@ -15,10 +22,11 @@ class Customer(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=200, unique=True)
+    slug = models.SlugField(max_length=200, unique=True)
     description = models.TextField(max_length=255, null=True, blank=False)
     image = models.ImageField(upload_to='categories', blank=True)
     digital = models.BooleanField(default=False, null=True, blank=False)
-    #date_created = models.DateTimeField(auto_now_add=True,blank=True, default=datetime.now)
+    #date_created = models.DateTimeField(auto_now_add=True,blank=True)
     #date_modified = models.DateTimeField(auto_now=True)
         
     class Meta:
@@ -29,9 +37,10 @@ class Category(models.Model):
         return self.name
 
 class Product(models.Model):
-    name = models.CharField(max_length=200, unique=True, null=True)
+    name = models.CharField(max_length=200, null=True)
+    slug = models.SlugField(max_length=200, blank=True, unique=True)
     description = models.TextField(max_length=500, null=True, blank=False)
-    price = models.FloatField()
+    price = models.DecimalField(max_digits=11, decimal_places=2)
     images = models.ImageField(upload_to='products', blank=True)
     stock = models.IntegerField(null=True, blank=False)
     is_available = models.BooleanField(default=True)
@@ -43,6 +52,9 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return "/products/{slug}/".format(slug=slug.self)
+
     @property
     def imageURL(self):
         try:
@@ -51,7 +63,12 @@ class Product(models.Model):
             url = ''
         return url
     
-
+def product_pre_save_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug= unique_slug_generator(instance)
+        
+pre_save.connect(product_pre_save_receiver, sender=Product)
+        
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
     date_ordered = models.DateTimeField(auto_now_add=True,blank=True)

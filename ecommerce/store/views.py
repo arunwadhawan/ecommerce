@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 import json
 import datetime
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 from .models import *
 
@@ -10,6 +13,7 @@ from .models import *
 def store(request):
     title = "Store"
     if request.user.is_authenticated:
+        print(request.user)
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer,complete=False)
         items = order.orderitem_set.all()
@@ -108,3 +112,14 @@ def processOrder(request):
             )
     
     return JsonResponse('Payment complete!', safe=False)
+
+def manageCookie(request):
+    print(request.COOKIES)
+    print(request.session)
+    print(dir(request.session))
+    resp = HttpResponse('Wow')
+    resp.set_cookie('zap',42)
+    resp.set_cookie('wooprie', 42, max_age = 10)
+    resp.set_cookie('radd', 42, max_age = 10)
+    return resp
+    return 
