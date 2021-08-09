@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse
 import json
 import datetime
@@ -10,7 +10,9 @@ from .models import *
 
 # Create your views here.
 
-def store(request):
+def store(request,category_slug=None):
+    categories=None
+    products = None
     title = "Store"
     if request.user.is_authenticated:
         print(request.user)
@@ -23,8 +25,15 @@ def store(request):
         order = {'get_cart_total':0,'get_cart_items':0, }
         cartItems = order['get_cart_items']
 
-    products = Product.objects.all().filter(is_available=True)
-    context = {'products':products,'order':order, 'items':items,'cartItems':cartItems,'shipping':False}
+    if category_slug != None:
+        categories = get_object_or_404(Category,slug=category_slug)
+        print(categories)
+        products = Product.objects.filter(category=categories, is_available=True)
+        product_count = products.count()
+    else:
+        products = Product.objects.all().filter(is_available=True)
+        product_count = products.count()
+    context = {'title':title,'products':products,'product_count':product_count,'order':order, 'items':items,'cartItems':cartItems,'shipping':False}
 
     return render(request, 'store/store.html',context)
 
