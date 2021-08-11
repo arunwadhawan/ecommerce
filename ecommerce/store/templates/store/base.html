@@ -91,8 +91,8 @@ const csrftoken = getCookie('csrftoken');
 <!-- Navbar Right Side -->
 	<ul class="nav">
         <div class="navbar-nav justify-content-end">
-          <a class="nav-item nav-link" href="#">Login</a>
-          <a class="nav-item nav-link" href="#">Register</a>
+          <a class="nav-item nav-link" href="{%url 'login' %}">Login</a>
+          <a class="nav-item nav-link" href="{%url 'register' %}">Register</a>
 
 	   <a href="{% url 'cart' %}">
  	   <img  id="cart-icon" src="{% static 'images/cart.png' %}">
@@ -117,6 +117,20 @@ const csrftoken = getCookie('csrftoken');
 
 
 </div>
+
+
+<!-- ========================= FOOTER ========================= -->
+<footer class="section-footer border-top padding-y">
+	<div class="container">
+		<p class="float-md-right"> 
+			&copy Copyright 2021 All rights reserved
+		</p>
+		<p>
+			<a href="#">Terms and conditions</a>
+		</p>
+	</div><!-- //container -->
+</footer>
+<!-- ========================= FOOTER END // ========================= -->
 
 <script type="text/javascript" src="{% static 'js/cart.js'%}"></script>
     <!-- Optional JavaScript; choose one of the two! -->

@@ -1,0 +1,37 @@
+
+{% extends 'store/base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+<h5>Register</h5>
+
+<form action="{% url 'register' %}" method="POST">
+{% csrf_token %}
+
+  <div class="mb-3">
+    <label for="email" class="form-label">{{form.email.label}}</label>
+    {{form.email}}
+    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+  </div>
+
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">{{form.name.label}}</label>
+    {{form.name}}
+  </div>
+  
+   <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">{{form.password.label}}</label>
+    {{form.password}}
+  </div>
+  <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock content %}
+
