@@ -1,0 +1,18 @@
+
+{% extends 'store/base.html' %}
+
+{% load static %}
+
+<h1>product detail</h1>
+
+{% block content %}
+
+{{product.name}}
+{{product.description}}
+{{product.price}}
+<img class="thumbnail" src="{{product.imageURL}}">
+{{product.stock}}
+{{product.category}}
+
+{% endblock content %}
+

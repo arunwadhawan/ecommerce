@@ -73,8 +73,9 @@ const csrftoken = getCookie('csrftoken');
             Category
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            {% for category in categories %}
-		<li><a class="dropdown-item" href="#">{{category.name}}</a></li>
+        	<li><a class="dropdown-item" href="{% url 'store' %}">All Products</a></li>    
+	{% for category in categories %}
+		<li><a class="dropdown-item" href="{{category.get_absolute_url}}">{{category.name}}</a></li>
             {% endfor %}
           </ul>
         </li>
@@ -82,8 +83,8 @@ const csrftoken = getCookie('csrftoken');
 
         </li>
               </ul>
-<form class="d-flex">
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+<form class="d-flex" action="{% url 'search' %}" method="GET">
+      <input class="form-control me-2" type="search" placeholder="Search" name="keyword" aria-label="Search">
       <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
 

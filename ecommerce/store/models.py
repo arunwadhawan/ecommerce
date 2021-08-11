@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.urls import reverse
 from django.db import models
 #from django.contrib.auth.models import User - Not reqd as custom user model beng used
 from django.db.models.signals import pre_save
@@ -36,6 +37,10 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+# to be used to filter products by categories
+    def get_absolute_url(self):
+        return reverse('products_by_category',args=[self.slug])
+
 class Product(models.Model):
     name = models.CharField(max_length=200, null=True)
     slug = models.SlugField(max_length=200, blank=True, unique=True)
@@ -53,7 +58,7 @@ class Product(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return "/products/{slug}/".format(slug=slug.self)
+        return reverse('product_detail', args =[self.category.slug,self.slug])
 
     @property
     def imageURL(self):

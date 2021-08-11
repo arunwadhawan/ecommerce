@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'store.apps.StoreConfig',
     'analytics.apps.AnalyticsConfig',
     'accounts.apps.AccountsConfig',
+    'search.apps.SearchConfig',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'

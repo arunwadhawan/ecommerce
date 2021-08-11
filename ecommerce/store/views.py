@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse
 import json
 import datetime
+from django.db.models import Q
 from django.contrib.auth import get_user_model
+from analytics.signals import object_viewed_signal
 
 User = get_user_model()
 
@@ -37,6 +39,25 @@ def store(request,category_slug=None):
 
     return render(request, 'store/store.html',context)
 
+def product_detail(request,category_slug, product_slug):
+    title = "Product Details"
+    try:       
+        product = Product.objects.get(category__slug=category_slug, slug=product_slug)
+    except Exception as e:
+        raise e
+    context = {'title':title,'product':product}
+    object_viewed_signal.send(product.__class__,instance=product,request=request) # Send the Object viewed signal for analytics
+    return render(request, 'store/product_detail.html',context)
+
+def search(request):
+    title = "Store"
+    if 'keyword' in request.GET:
+        keyword = request.GET['keyword']
+        if keyword:
+            products = Product.objects.all().filter(Q(description__icontains=keyword) | Q(name__icontains=keyword))
+#    products = Product.objects.all().filter(is_available=True)
+    context = {'title':title,'products':products}
+    return render(request, 'store/store.html',context)
 
 def cart(request):
     title = "Cart"
