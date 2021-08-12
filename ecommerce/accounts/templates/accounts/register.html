@@ -8,7 +8,6 @@
 
 <h5>Register</h5>
 
-
 <form action="{% url 'register' %}" method="POST">
 {% csrf_token %}
 {% for field in form %}
@@ -18,16 +17,18 @@
 <div class="mb-2">{% render_field field class="form-control" %}</div>    
 
 {% endfor %}
-  <div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div>
 
-<div class="d-grid  mx-auto">
+<div class="d-grid  mt-3 mx-auto">
   <button type="submit" class="btn btn-primary ">Submit</button>
 <div>
 
 </form>
+
+        <div class="border-top pt-1 pb-2">
+            <small class="text-muted">
+                Have an account? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
+            </small>
+        </div>
 
 
 {% endblock content %}

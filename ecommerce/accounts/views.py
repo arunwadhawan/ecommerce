@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from django.contrib import messages
+from django.contrib import messages, auth
+from django.contrib.auth import authenticate, login, logout
 
 User = get_user_model()
 
@@ -26,12 +27,28 @@ def register(request):
     context = {'title':title, 'form':form,}
     return render(request,'accounts/register.html',context)
 
-def login(request):
+def user_login(request):# don't use login as it conflicts with the login import from auth
     title="Login"
-    context = {'title':title}
-    return render(request,'accounts/login.html',context)
+    if request.method=='POST':
+        
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(request, email=email,password=password)
+        print(user)
 
-def logout(request):
-    title="Logout"
+        if user is not None:
+            login(request, user)
+            #messages.success(request,'You are now logged in.')
+            return redirect('store')
+        else:
+            messages.error(request,'Invalid login credentials.')
+            return redirect('login')
+    else:
+        context = {'title':title}
+        return render(request,'accounts/login.html',context)
+
+def user_logout(request): # don't use logout as it conflicts with the logout imported from auth
+    title="Login"
+    logout(request)
     context = {'title':title}
-    return render(request,'accounts/register.html',context)
+    return redirect('login')

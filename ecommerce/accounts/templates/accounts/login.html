@@ -8,24 +8,32 @@
 <h5>Login</h5>
 
 
-<form>
+<form action="{% url 'login' %}" method="POST">
+
+{% csrf_token %}
+
   <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Email address</label>
-    <div class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">{{form.email}}<div>
+    <label for="email" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder=" Enter Email Address" name="email">
     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
   </div>
 
   <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1">
+    <label for="password" class="form-label">Password</label>
+    <input type="password" class="form-control" id="password" placeholder=" Enter Password" name="password">
   </div>
 
-  <div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+<div class="d-grid  mt-3 mx-auto">
+  <button type="submit" class="btn btn-primary ">Submit</button>
+<div>
+
 </form>
+
+        <div class="border-top pt-1 pb-2">
+            <small class="text-muted">
+                Don't have an account? <a class="ml-2" href="{% url 'register' %}">Register</a>
+            </small>
+        </div>
 
 {% endblock content %}
 
