@@ -2,36 +2,32 @@
 {% extends 'store/base.html' %}
 
 {% load static %}
-
+{% load widget_tweaks %}
 
 {% block content %}
 
 <h5>Register</h5>
 
+
 <form action="{% url 'register' %}" method="POST">
 {% csrf_token %}
+{% for field in form %}
+  <div class=" form-group mb-3">
+{{ field.errors }}
+<div class="mb-1">{{field.label_tag }}</div>
+<div class="mb-2">{% render_field field class="form-control" %}</div>    
 
-  <div class="mb-3">
-    <label for="email" class="form-label">{{form.email.label}}</label>
-    {{form.email}}
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-  </div>
-
-  <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">{{form.name.label}}</label>
-    {{form.name}}
-  </div>
-  
-   <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">{{form.password.label}}</label>
-    {{form.password}}
-  </div>
+{% endfor %}
   <div class="mb-3 form-check">
     <input type="checkbox" class="form-check-input" id="exampleCheck1">
     <label class="form-check-label" for="exampleCheck1">Check me out</label>
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+
+<div class="d-grid  mx-auto">
+  <button type="submit" class="btn btn-primary ">Submit</button>
+<div>
+
 </form>
 
-{% endblock content %}
 
+{% endblock content %}

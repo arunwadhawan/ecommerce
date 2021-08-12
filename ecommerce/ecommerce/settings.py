@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'analytics.apps.AnalyticsConfig',
     'accounts.apps.AccountsConfig',
     'search.apps.SearchConfig',
+    'widget_tweaks',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'

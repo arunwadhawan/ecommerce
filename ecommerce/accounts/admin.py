@@ -1,11 +1,20 @@
+from django import forms
 from django.contrib import admin
+from django.contrib.auth.models import Group
+from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
+from .forms import UserCreationForm, UserChangeForm
 #from .models import User
 from django.contrib.auth.admin import UserAdmin
 
 User = get_user_model()
 
 class AccountAdmin(UserAdmin):
+    # The forms to add and change user instances
+    form = UserChangeForm
+    add_form = UserCreationForm
+    
     search_fields = ('email','name')
     list_display = ('email','name','phone_number','is_active','is_staff','is_admin')
     list_filter = ('is_active','is_admin')
