@@ -95,9 +95,10 @@ const csrftoken = getCookie('csrftoken');
 	<span class="nav-item nav-link" href="{%url 'logout' %}">Hello {{request.user.name}}</span>
 	<a class="nav-item nav-link" href="{%url 'logout' %}">Logout</a>
 	{% else %}  
-	<a class="nav-item nav-link" href="{%url 'login' %}">Login</a>
+
+	<a class="nav-item nav-link" href="{%url 'login' %}">Login </a> 
           <a class="nav-item nav-link" href="{%url 'register' %}">Register</a>
-         
+         						
 	{% endif %}
 
 	   <a href="{% url 'cart' %}">
